@@ -9,24 +9,30 @@ import (
 )
 
 type Config struct {
-	Name string
+	Name      string
+	JwtSecret string
 }
 
+var C *Config
+
 func Init(cfg string) error {
-	c := Config{
+	C = &Config{
 		Name: cfg,
 	}
 
 	// 初始化配置文件
-	if err := c.initConfig(); err != nil {
+	if err := C.initConfig(); err != nil {
 		return err
 	}
 
+	// fill struct
+	C.JwtSecret = viper.GetString("jwt_secret")
+
 	// 初始化日志包
-	c.initLog()
+	C.initLog()
 
 	// 监控配置文件变化并热加载程序
-	c.watchConfig()
+	C.watchConfig()
 
 	return nil
 }

@@ -10,7 +10,8 @@ gitTreeState = $(shell if git status|grep -q 'clean';then echo clean; else echo 
 
 ldflags="-w -X ${versionDir}.gitTag=${gitTag} -X ${versionDir}.buildDate=${buildDate} -X ${versionDir}.gitCommit=${gitCommit} -X ${versionDir}.gitTreeState=${gitTreeState}"
 
-all: gotool
+all: gotool api
+api:
 	@go build -v -ldflags ${ldflags} .
 clean:
 	rm -f apiserver
@@ -27,6 +28,6 @@ help:
 	@echo "make gotool - run go tool 'fmt' and 'vet'"
 	@echo "make ca - generate ca files"
 
-.PHONY: clean gotool ca help
+.PHONY: clean gotool ca help api
 
 
